@@ -21,41 +21,75 @@ class UserResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form // lo que se muestra en el formulario
+        return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')
+                ->label('Nombre')
+                ->required(),
+            Forms\Components\TextInput::make('surname')
+                ->label('Apellidos')
+                ->required(),
+            Forms\Components\TextInput::make('email')
+                ->required(),
+            Forms\Components\TextInput::make('password')->password()
+                ->required(),
+            Forms\Components\TextInput::make('phone')
+                ->label('Teléfono')
+                ->numeric()
+                ->required(),
+            Forms\Components\TextInput::make('address')
+                ->label('Dirección'),
+            Forms\Components\Textarea::make('bio')
+                ->label('Biografía'),
+             Forms\Components\Select::make('role')->options([
+                'admin' => 'Admin',
+                'vet' => 'Veterinario',
+                'owner' => 'Dueño',
+            ]) 
+                ->label('Rol')
+                ->default('owner')
+                ->required(),
             ]);
     }
 
     public static function table(Table $table): Table
     {
-        return $table // lo que se muestra en la tabla
+        return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('role'),
+                Tables\Columns\TextColumn::make('name')
+                ->label('Nombre')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('surname')
+                    ->label('Apellidos'),
+                Tables\Columns\TextColumn::make('email'), 
+                Tables\Columns\TextColumn::make('phone')
+                    ->label('Teléfono')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('role')
+                    ->label('Rol')
+                    ->sortable(),
             ])
-            ->filters([ // filtros
+            ->filters([
                 //
             ])
-            ->actions([ // acciones, como por ejemplo editar o eliminar
+            ->actions([
                 Tables\Actions\EditAction::make(),
             ])
-            ->bulkActions([ // acciones en masa, como por ejemplo eliminar varios registros a la vez
+            ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
 
-    public static function getRelations(): array // relaciones con otras tablas, las ponemos aqui para que se muestren. 
+    public static function getRelations(): array
     {
         return [
             //
         ];
     }
 
-    public static function getPages(): array // paginas que se muestran en el menu de la izquierda
+    public static function getPages(): array
     {
         return [
             'index' => Pages\ListUsers::route('/'),
