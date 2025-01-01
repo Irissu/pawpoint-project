@@ -16,4 +16,9 @@ class EditUser extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function getRedirectUrl(): ?string // This method is used to redirect the user to the index page after editing a record
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

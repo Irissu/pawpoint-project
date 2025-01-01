@@ -25,17 +25,23 @@ class UserResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                 ->label('Nombre')
+                ->minLength(2)
+                ->maxLength(50)
                 ->required(),
             Forms\Components\TextInput::make('surname')
                 ->label('Apellidos')
                 ->required(),
             Forms\Components\TextInput::make('email')
                 ->required(),
-            Forms\Components\TextInput::make('password')->password()
+            Forms\Components\TextInput::make('password')
+                ->password()
+                ->revealable()
                 ->required(),
             Forms\Components\TextInput::make('phone')
                 ->label('Teléfono')
+                // ->tel() ?
                 ->numeric()
+                ->length(9)
                 ->required(),
             Forms\Components\TextInput::make('address')
                 ->label('Dirección'),
@@ -67,7 +73,6 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('role')
                     ->label('Rol')
-                    ->sortable(),
             ])
             ->filters([
                 //
